@@ -14,6 +14,7 @@
 #include "ngx_stream_lua_common.h"
 #include "ngx_stream_lua_directive.h"
 #include "ngx_stream_lua_contentby.h"
+#include "ngx_stream_lua_accessby.h"
 #include "ngx_stream_lua_semaphore.h"
 #include "ngx_stream_lua_initby.h"
 #include "ngx_stream_lua_initworkerby.h"
@@ -89,6 +90,21 @@ static ngx_command_t  ngx_stream_lua_commands[] = {
       NGX_STREAM_MAIN_CONF_OFFSET,
       0,
       (void *) ngx_stream_lua_init_worker_by_file },
+
+    { ngx_string("access_by_lua_block"),
+      NGX_STREAM_SRV_CONF|NGX_CONF_BLOCK|NGX_CONF_NOARGS,
+      ngx_stream_lua_access_by_lua_block,
+      NGX_STREAM_SRV_CONF_OFFSET,
+      0,
+      (void *) ngx_stream_lua_access_handler_inline },
+
+    { ngx_string("access_by_lua_file"),
+      NGX_STREAM_SRV_CONF|NGX_CONF_TAKE1,
+      ngx_stream_lua_access_by_lua,
+      NGX_STREAM_SRV_CONF_OFFSET,
+      0,
+      (void *) ngx_stream_lua_access_handler_file },
+
 
     { ngx_string("content_by_lua_block"),
       NGX_STREAM_SRV_CONF|NGX_CONF_BLOCK|NGX_CONF_NOARGS,
@@ -595,6 +611,7 @@ ngx_stream_lua_init(ngx_conf_t *cf)
 {
     ngx_int_t                   rc;
     volatile ngx_cycle_t       *saved_cycle;
+    ngx_stream_core_main_conf_t  *cmcf;
     ngx_stream_lua_main_conf_t *lmcf;
 #ifndef NGX_LUA_NO_FFI_API
     ngx_pool_cleanup_t         *cln;
@@ -614,6 +631,12 @@ ngx_stream_lua_init(ngx_conf_t *cf)
     cln->handler = ngx_stream_lua_cleanup_semaphore_mm;
 
 #endif
+
+    cmcf = ngx_stream_conf_get_module_main_conf(cf, ngx_stream_core_module);
+
+    if (lmcf->requires_access) {
+        cmcf->access_handler = ngx_stream_lua_access_handler;
+    }
 
     if (lmcf->lua == NULL) {
         dd("initializing lua vm");

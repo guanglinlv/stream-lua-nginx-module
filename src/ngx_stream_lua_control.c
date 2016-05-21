@@ -56,7 +56,8 @@ ngx_stream_lua_ngx_exit(lua_State *L)
         return luaL_error(L, "no session ctx found");
     }
 
-    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_CONTENT
+    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_ACCESS
+                                 | NGX_STREAM_LUA_CONTEXT_CONTENT
                                  | NGX_STREAM_LUA_CONTEXT_TIMER);
 
     rc = (ngx_int_t) luaL_checkinteger(L, 1);

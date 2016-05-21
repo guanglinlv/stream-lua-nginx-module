@@ -66,7 +66,8 @@ ngx_stream_lua_ngx_echo(lua_State *L, unsigned newline)
         return luaL_error(L, "no session ctx found");
     }
 
-    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_CONTENT);
+    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_ACCESS
+            | NGX_STREAM_LUA_CONTEXT_CONTENT);
 
 #if 0
     if (ctx->acquired_raw_req_socket) {
@@ -483,7 +484,8 @@ ngx_stream_lua_ngx_flush(lua_State *L)
         return luaL_error(L, "no session ctx found");
     }
 
-    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_CONTENT);
+    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_ACCESS
+            | NGX_STREAM_LUA_CONTEXT_CONTENT);
 
 #if 0
     if (ctx->acquired_raw_req_socket) {
@@ -588,7 +590,8 @@ ngx_stream_lua_ngx_eof(lua_State *L)
 
     ctx->eof = 1;
 
-    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_CONTENT);
+    ngx_stream_lua_check_context(L, ctx, NGX_STREAM_LUA_CONTEXT_ACCESS
+            | NGX_STREAM_LUA_CONTEXT_CONTENT);
 
     ngx_log_debug0(NGX_LOG_DEBUG_STREAM, s->connection->log, 0,
                    "stream lua send eof");

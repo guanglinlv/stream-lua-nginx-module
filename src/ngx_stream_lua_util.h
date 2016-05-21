@@ -84,7 +84,8 @@ void ngx_stream_lua_set_multi_value_table(lua_State *L, int index);
 
 
 #define ngx_stream_lua_context_name(c)                                       \
-    ((c) == NGX_STREAM_LUA_CONTEXT_CONTENT ? "content_by_lua*"               \
+    ((c) == NGX_STREAM_LUA_CONTEXT_ACCESS ? "access_by_lua*"               \
+     : (c) == NGX_STREAM_LUA_CONTEXT_CONTENT ? "content_by_lua*"             \
      : (c) == NGX_STREAM_LUA_CONTEXT_LOG ? "log_by_lua*"                     \
      : (c) == NGX_STREAM_LUA_CONTEXT_TIMER ? "ngx.timer"                     \
      : (c) == NGX_STREAM_LUA_CONTEXT_INIT_WORKER ? "init_worker_by_lua*"     \

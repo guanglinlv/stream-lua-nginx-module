@@ -17,6 +17,10 @@ char *ngx_stream_lua_init_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
     void *conf);
 char *ngx_stream_lua_init_by_lua_block(ngx_conf_t *cf, ngx_command_t *cmd,
     void *conf);
+char *ngx_stream_lua_access_by_lua_block(ngx_conf_t *cf, ngx_command_t *cmd,
+    void *conf);
+char *ngx_stream_lua_access_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
+    void *conf);
 char *ngx_stream_lua_content_by_lua_block(ngx_conf_t *cf, ngx_command_t *cmd,
     void *conf);
 char *ngx_stream_lua_content_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,

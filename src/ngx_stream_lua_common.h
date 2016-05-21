@@ -50,6 +50,7 @@
 
 
 /* must be within 16 bit */
+#define NGX_STREAM_LUA_CONTEXT_ACCESS         0x000
 #define NGX_STREAM_LUA_CONTEXT_CONTENT        0x001
 #define NGX_STREAM_LUA_CONTEXT_LOG            0x002
 #define NGX_STREAM_LUA_CONTEXT_TIMER          0x004
@@ -111,10 +112,12 @@ typedef struct {
 
 typedef struct ngx_stream_lua_semaphore_mm_s  ngx_stream_lua_semaphore_mm_t;
 typedef struct ngx_stream_lua_main_conf_s  ngx_stream_lua_main_conf_t;
-
+typedef struct ngx_stream_lua_srv_conf_s  ngx_stream_lua_srv_conf_t;
 
 typedef ngx_int_t (*ngx_stream_lua_main_conf_handler_pt)(ngx_log_t *log,
     ngx_stream_lua_main_conf_t *lmcf, lua_State *L);
+typedef ngx_int_t (*ngx_stream_lua_srv_conf_handler_pt)(ngx_stream_session_t *s, ngx_log_t *log,
+    ngx_stream_lua_srv_conf_t *lscf, lua_State *L);
 
 
 typedef struct {
@@ -175,7 +178,7 @@ typedef void (*ngx_stream_lua_event_handler_pt)(ngx_stream_session_t *s,
     ngx_stream_lua_ctx_t *ctx);
 
 
-typedef struct {
+struct ngx_stream_lua_srv_conf_s {
 
 #if (NGX_STREAM_SSL)
     ngx_ssl_t              *ssl;  /* shared by SSL cosockets */
@@ -222,7 +225,16 @@ typedef struct {
     ngx_msec_t                          lingering_time;
     ngx_msec_t                          lingering_timeout;
 
-} ngx_stream_lua_srv_conf_t;
+    ngx_stream_lua_handler_pt           access_handler;
+    u_char                             *access_chunkname;
+    ngx_str_t                           access_src;    /*  access_by_lua
+                                                         *  inline script/script
+                                                         *  file path
+                                                         */
+    u_char                             *access_src_key; /* cached key for
+                                                          * access_src
+                                                          */
+};
 
 
 enum {
@@ -377,6 +389,7 @@ struct ngx_stream_lua_ctx_s {
     unsigned                   lingering_close:1;
     unsigned                   exited:1;
 
+    unsigned                   entered_access_phase:1;
     unsigned                   entered_content_phase:1;
     unsigned                   writing_raw_req_socket:1; /* used by raw
                                                           * downstream

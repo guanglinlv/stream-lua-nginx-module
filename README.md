@@ -120,6 +120,8 @@ documentation of `ngx_http_lua_module` for more details about their usage and be
 * [init_by_lua_file](https://github.com/openresty/lua-nginx-module#init_by_lua_file)
 * [init_worker_by_lua_block](https://github.com/openresty/lua-nginx-module#init_worker_by_lua_block)
 * [init_worker_by_lua_file](https://github.com/openresty/lua-nginx-module#init_worker_by_lua_file)
+* [access_by_lua_block](https://github.com/openresty/lua-nginx-module#access_by_lua_block)
+* [access_by_lua_file](https://github.com/openresty/lua-nginx-module#access_by_lua_file)
 * [content_by_lua_block](https://github.com/openresty/lua-nginx-module#content_by_lua_block)
 * [content_by_lua_file](https://github.com/openresty/lua-nginx-module#content_by_lua_file)
 * [lua_shared_dict](https://github.com/openresty/lua-nginx-module#lua_shared_dict)
