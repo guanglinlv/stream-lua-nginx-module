@@ -50,11 +50,11 @@
 
 
 /* must be within 16 bit */
-#define NGX_STREAM_LUA_CONTEXT_ACCESS         0x000
 #define NGX_STREAM_LUA_CONTEXT_CONTENT        0x001
 #define NGX_STREAM_LUA_CONTEXT_LOG            0x002
 #define NGX_STREAM_LUA_CONTEXT_TIMER          0x004
 #define NGX_STREAM_LUA_CONTEXT_INIT_WORKER    0x008
+#define NGX_STREAM_LUA_CONTEXT_ACCESS         0x010
 
 
 /* Nginx Stream Lua Inline tag prefix */
