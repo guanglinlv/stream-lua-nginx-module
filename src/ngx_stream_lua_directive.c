@@ -212,19 +212,18 @@ ngx_stream_lua_access_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
         *p = '\0';
 
     } else {
-        if (lscf->access_src.len == 0) {
-            /* no variable found */
-            p = ngx_palloc(cf->pool, NGX_STREAM_LUA_FILE_KEY_LEN + 1);
-            if (p == NULL) {
-                return NGX_CONF_ERROR;
-            }
+        lscf->access_src = value[1];
 
-            lscf->access_src_key = p;
-
-            p = ngx_copy(p, NGX_STREAM_LUA_FILE_TAG, NGX_STREAM_LUA_FILE_TAG_LEN);
-            p = ngx_stream_lua_digest_hex(p, value[1].data, value[1].len);
-            *p = '\0';
+        p = ngx_palloc(cf->pool, NGX_STREAM_LUA_FILE_KEY_LEN + 1);
+        if (p == NULL) {
+            return NGX_CONF_ERROR;
         }
+
+        lscf->access_src_key = p;
+
+        p = ngx_copy(p, NGX_STREAM_LUA_FILE_TAG, NGX_STREAM_LUA_FILE_TAG_LEN);
+        p = ngx_stream_lua_digest_hex(p, value[1].data, value[1].len);
+        *p = '\0';
     }
 
     lscf->access_handler = (ngx_stream_lua_handler_pt) cmd->post;

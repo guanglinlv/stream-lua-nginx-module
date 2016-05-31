@@ -76,22 +76,28 @@ ngx_stream_lua_access_handler_file(ngx_stream_session_t *s, ngx_stream_lua_ctx_t
                                              lscf->access_src.data,
                                              lscf->access_src.len);
 
+    dd("1");
     if (script_path == NULL) {
         return NGX_ERROR;
     }
 
+    dd("2");
     L = ngx_stream_lua_get_lua_vm(s, NULL);
 
+    dd("3");
     /*  load Lua script file (w/ cache)        sp = 1 */
     rc = ngx_stream_lua_cache_loadfile(s->connection->log, L, script_path,
                                        lscf->access_src_key);
+    dd("4");
     if (rc != NGX_OK) {
         return NGX_ERROR;
     }
 
+    dd("5");
     /*  make sure we have a valid code chunk */
     ngx_stream_lua_assert(lua_isfunction(L, -1));
 
+    dd("6");
     return ngx_stream_lua_access_by_chunk(L, s);
 }
 
