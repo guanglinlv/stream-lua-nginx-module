@@ -1,3 +1,6 @@
+**NOTE** To make access_by_lua* work, two nginx patches ([nginx-allow_override_stream_access_handler.patch](https://github.com/ryeyao/openresty-bundle/blob/master/bundle/nginx-allow_override_stream_access_handler.patch) & [nginx-init_session_before_access_handler.patch](https://github.com/ryeyao/openresty-bundle/blob/master/bundle/nginx-init_session_before_access_handler.patch)) are needed. 
+
+**NOTE** This modification should work with openresty-bundle-1.9.7.4 (with nginx-1.9.7).
 
 Name
 ====
